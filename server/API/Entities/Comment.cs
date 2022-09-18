@@ -11,7 +11,7 @@ namespace API.Entities
         public DateTime CreatedUtc { get; set; }
         public DateTime UpdatedUtc { get; set; }
         
-        public string AppUserId { get; set; }
+        public int AppUserId { get; set; }
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }
         public int IssueId { get; set; }

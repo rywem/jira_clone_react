@@ -9,6 +9,12 @@ namespace API.Data
         IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
         IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppUserIssue> AppUserIssues { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Project> Projects { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
@@ -28,6 +34,10 @@ namespace API.Data
                 .WithOne(u => u.AppRole)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
+
+            builder.Entity<AppUserIssue>()
+                .HasKey(x => new { x.AppUserId, x.IssueId });
+
         }
     }
 }

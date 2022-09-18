@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
@@ -6,8 +7,10 @@ namespace API.Entities
     {
         public string AvatarUrl { get; set; }
         public ICollection<AppUserRole> UserRoles { get; set; }
-        public ICollection<Issue> Issues { get; set; }
+        [InverseProperty("AppUser")]
+        public ICollection<AppUserIssue> AppUserIssues { get; set; }
+        [InverseProperty("AppUser")]
         public ICollection<Comment> Comments { get; set; }
-        public ICollection<Project> Projects { get; set; }
+        public Project Project { get; set; }
     }
 }
