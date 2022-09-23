@@ -16,11 +16,13 @@ namespace API.Entities
         public string Description { get; set; }
         public string DescriptionText { get; set; }
         public int Estimate { get; set; }
-        public int TimeSpent { get; set; }
         public int TimeRemaining { get; set; }
+        public int TimeSpent { get; set; }
         public DateTime CreatedUtc { get; set; }
         public DateTime UpdatedUtc { get; set; }
-        public int ReportId { get; set; }
+        public int ReporterId { get; set; }
+        [ForeignKey("ReporterId")]
+        public AppUser Reporter { get; set; }
         public int ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public Project Project { get; set; }
@@ -28,5 +30,7 @@ namespace API.Entities
         public ICollection<Comment> Comments { get; set; }
         [InverseProperty("Issue")]
         public ICollection<AppUserIssue> AppUserIssues { get; set; }
+
+        
     }
 }

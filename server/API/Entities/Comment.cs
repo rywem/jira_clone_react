@@ -18,5 +18,7 @@ namespace API.Entities
         [ForeignKey("IssueId")]
         public Issue Issue { get; set; }
         //User
+
+        
     }
 }
