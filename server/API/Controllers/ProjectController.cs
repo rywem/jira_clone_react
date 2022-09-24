@@ -8,7 +8,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProjectController : ControllerBase
     {
         private readonly ProjectRepository _projectRepository;
@@ -52,6 +52,21 @@ namespace API.Controllers
             try
             {
                 var result = await _projectRepository.UpdateAsync(project);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await _projectRepository.GetAllAsync();
                 return Ok(result);
             }
             catch (Exception ex)

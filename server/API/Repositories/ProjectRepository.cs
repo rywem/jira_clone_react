@@ -47,5 +47,10 @@ namespace API.Repositories
             }
             throw new Exception("Project not found in DB");
         }
+
+        public async Task<List<Project>> GetAllAsync()
+        {
+            return await _context.Projects.ToListAsync();            
+        }
     }
 }
