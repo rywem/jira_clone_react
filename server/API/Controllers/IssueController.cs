@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class IssueController : ControllerBase
     {
         private readonly IssueRepository _issueRepository;
