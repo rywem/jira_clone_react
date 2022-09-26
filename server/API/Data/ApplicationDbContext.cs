@@ -23,6 +23,8 @@ namespace API.Data
 
             builder.Entity<AppUserIssue>()
                 .HasKey(x => new { x.AppUserId, x.IssueId });
+            builder.Entity<AppUserProject>()
+                .HasKey(x => new { x.AppUserId, x.ProjectId });
 
         }
     }

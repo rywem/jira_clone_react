@@ -16,6 +16,17 @@ namespace API.Extensions
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddScoped<TokenService>();
+
+            services.AddIdentityCore<AppUser>(opt =>
+            {
+                opt.User.RequireUniqueEmail = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.SignIn.RequireConfirmedEmail = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddSignInManager<SignInManager<AppUser>>()
+                .AddUserManager<UserManager<AppUser>>();
+                
             //services.AddIdentityCore<AppUser>(opt =>
             //{
             //    opt.Password.RequireNonAlphanumeric = false;

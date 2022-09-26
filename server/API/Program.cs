@@ -1,6 +1,9 @@
 using API;
 using API.Data;
+using API.Entities;
+using API.Extensions;
 using API.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,26 +32,30 @@ builder.Services.AddCors(options =>
                                               .AllowCredentials();
                       });
 });
-
-// builder.Services.AddCors(options =>
-// {
-//      options.AddDefaultPolicy(
-//         builder =>
-//         {
-//             builder.WithOrigins("https://localhost:3000")
-//             .AllowAnyHeader()
-//             .AllowAnyMethod()
-//             .AllowCredentials();
-//         });
-// });
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
     opt.UseSqlite(connString);
 
     opt.EnableSensitiveDataLogging();
 });
+
+builder.Services.AddIdentityServices(builder.Configuration);
 var app = builder.Build();
 
+
+using(var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        await API.Data.Seed.SeedData(userManager);
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

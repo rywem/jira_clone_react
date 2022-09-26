@@ -11,8 +11,7 @@ namespace API.Entities
         public ICollection<AppUserIssue> AppUserIssues { get; set; }
         [InverseProperty("AppUser")]
         public ICollection<Comment> Comments { get; set; }
-        public int ProjectId { get; set; }
-        [ForeignKey("ProjectId")]
-        public Project Project { get; set; }
+        [InverseProperty("AppUser")]
+        public AppUserProject AppUserProject { get; set; }
     }
 }

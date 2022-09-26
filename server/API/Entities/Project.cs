@@ -15,7 +15,7 @@ namespace API.Entities
         public ProjectCategory Category { get; set; }
         [InverseProperty(nameof(Issue.Project))]
         public ICollection<Issue> Issues { get; set; }
-        [InverseProperty(nameof(AppUser.Project))]
-        public ICollection<AppUser> AppUsers { get; set; }
+        [InverseProperty(nameof(AppUserProject.Project))]
+        public ICollection<AppUserProject> AppUserProjects { get; set; }
     }
 }

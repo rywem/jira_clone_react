@@ -18,7 +18,8 @@ namespace API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountController(UserManager<AppUser> userManager, TokenService tokenService, SignInManager<AppUser> signInManager, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, TokenService tokenService, 
+            SignInManager<AppUser> signInManager, IMapper mapper)
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -39,11 +40,8 @@ namespace API.Controllers
 
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-                var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-
-                if (!roleResult.Succeeded)
-                    return BadRequest();
-
+                //var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+                
                 if (!result.Succeeded)
                     return BadRequest("Invalid");
 
