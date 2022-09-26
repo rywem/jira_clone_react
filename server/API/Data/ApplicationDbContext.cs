@@ -5,9 +5,7 @@ using API.Entities;
 
 namespace API.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, int,
-        IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
-        IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppUserIssue> AppUserIssues { get; set; }
@@ -22,18 +20,6 @@ namespace API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<AppUser>()
-                .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.AppUser)
-                .HasForeignKey(ur => ur.UserId)
-                .IsRequired();
-
-            builder.Entity<AppRole>()
-                .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.AppRole)
-                .HasForeignKey(ur => ur.RoleId)
-                .IsRequired();
 
             builder.Entity<AppUserIssue>()
                 .HasKey(x => new { x.AppUserId, x.IssueId });

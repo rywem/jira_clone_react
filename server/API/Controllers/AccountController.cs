@@ -28,29 +28,36 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username))
-                return BadRequest("Username is taken.");
-
-            //var result = await Mediator.Send(new Register.Command() { RegisterDto = registerDto });
-            var user = _mapper.Map<AppUser>(registerDto);
-            user.UserName = registerDto.Username.ToLower();
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-
-            if (!roleResult.Succeeded)
-                return BadRequest();
-
-            if (!result.Succeeded)
-                return BadRequest("Invalid");
-
-            var response = new UserDto()
+            try
             {
-                Username = user.UserName,
-                Token = await _tokenService.CreateToken(user)
-            };
-            return Ok(response);
+                if (await UserExists(registerDto.Username))
+                    return BadRequest("Username is taken.");
+
+                //var result = await Mediator.Send(new Register.Command() { RegisterDto = registerDto });
+                var user = _mapper.Map<AppUser>(registerDto);
+                user.UserName = registerDto.Username.ToLower();
+
+                var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+                var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+
+                if (!roleResult.Succeeded)
+                    return BadRequest();
+
+                if (!result.Succeeded)
+                    return BadRequest("Invalid");
+
+                var response = new UserDto()
+                {
+                    Username = user.UserName,
+                    Token = await _tokenService.CreateToken(user)
+                };
+                return Ok(response);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
         }
 
         private async Task<bool> UserExists(string username)

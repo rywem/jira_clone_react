@@ -8,7 +8,8 @@ import Project from './pages/Project'
 import NoPage from "./pages/NoPage";
 import logo from './logo.svg';
 import './App.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css'
 function App() {
   return (
     <BrowserRouter>

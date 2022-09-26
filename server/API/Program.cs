@@ -23,9 +23,24 @@ builder.Services.AddCors(options =>
                       policy  =>
                       {
                           policy.WithOrigins("http://localhost:3000",
-                                              "http://localhost:3000");
+                                              "http://localhost:3000")
+                                              .AllowAnyHeader()
+                                              .AllowAnyMethod()
+                                              .AllowCredentials();
                       });
 });
+
+// builder.Services.AddCors(options =>
+// {
+//      options.AddDefaultPolicy(
+//         builder =>
+//         {
+//             builder.WithOrigins("https://localhost:3000")
+//             .AllowAnyHeader()
+//             .AllowAnyMethod()
+//             .AllowCredentials();
+//         });
+// });
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
     opt.UseSqlite(connString);

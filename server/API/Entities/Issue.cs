@@ -20,7 +20,7 @@ namespace API.Entities
         public int TimeSpent { get; set; }
         public DateTime CreatedUtc { get; set; }
         public DateTime UpdatedUtc { get; set; }
-        public int ReporterId { get; set; }
+        public string ReporterId { get; set; }
         [ForeignKey("ReporterId")]
         public AppUser Reporter { get; set; }
         public int ProjectId { get; set; }

@@ -4,7 +4,7 @@ namespace API.Entities
 {
     public class AppUserIssue
     {
-        public int AppUserId { get; set; }
+        public string AppUserId { get; set; }
         public int IssueId { get; set; }
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class SetupDatabaseMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,7 @@ namespace API.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
@@ -32,6 +31,8 @@ namespace API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Url = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Category = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -45,7 +46,7 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
                     ClaimType = table.Column<string>(type: "TEXT", nullable: true),
                     ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -64,10 +65,9 @@ namespace API.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     AvatarUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    ProjectId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -90,37 +90,6 @@ namespace API.Migrations
                         name: "FK_AspNetUsers_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Issues",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: true),
-                    Type = table.Column<int>(type: "INTEGER", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    Priority = table.Column<int>(type: "INTEGER", nullable: false),
-                    ListPosition = table.Column<int>(type: "INTEGER", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    DescriptionText = table.Column<string>(type: "TEXT", nullable: true),
-                    Estimate = table.Column<int>(type: "INTEGER", nullable: false),
-                    TimeSpent = table.Column<int>(type: "INTEGER", nullable: false),
-                    TimeRemaining = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ReportId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Issues", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Issues_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -131,7 +100,7 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
                     ClaimType = table.Column<string>(type: "TEXT", nullable: true),
                     ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -153,7 +122,7 @@ namespace API.Migrations
                     LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
                     ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -170,8 +139,8 @@ namespace API.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RoleId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,7 +163,7 @@ namespace API.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
                     LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Value = table.Column<string>(type: "TEXT", nullable: true)
@@ -211,10 +180,47 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Issues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    Priority = table.Column<int>(type: "INTEGER", nullable: false),
+                    ListPosition = table.Column<int>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    DescriptionText = table.Column<string>(type: "TEXT", nullable: true),
+                    Estimate = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeRemaining = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeSpent = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ReporterId = table.Column<string>(type: "TEXT", nullable: true),
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Issues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Issues_AspNetUsers_ReporterId",
+                        column: x => x.ReporterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Issues_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppUserIssues",
                 columns: table => new
                 {
-                    AppUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: false),
                     IssueId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -243,7 +249,7 @@ namespace API.Migrations
                     Body = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AppUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true),
                     IssueId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -253,8 +259,7 @@ namespace API.Migrations
                         name: "FK_Comments_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Issues_IssueId",
                         column: x => x.IssueId,
@@ -324,6 +329,11 @@ namespace API.Migrations
                 name: "IX_Issues_ProjectId",
                 table: "Issues",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issues_ReporterId",
+                table: "Issues",
+                column: "ReporterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -353,10 +363,10 @@ namespace API.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Issues");
 
             migrationBuilder.DropTable(
-                name: "Issues");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Projects");
