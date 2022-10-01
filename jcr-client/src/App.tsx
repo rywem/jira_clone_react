@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import { Project } from './models/Project';
 import { Header, List } from 'semantic-ui-react'
+import NavBar from "./layout/NavBar";
 function App() {
   const [projects, setProjects] = useState<Project[]>([])
 
@@ -23,7 +24,7 @@ function App() {
 
   return (
     <div>
-      <Header as="h2" icon="tasks" content="JCR" />
+      <NavBar />
       <List>
         {projects.map((project: Project) => (
             <List.Item key={project.id}>
