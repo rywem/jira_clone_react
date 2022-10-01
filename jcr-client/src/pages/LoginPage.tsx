@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactDOM from 'react-dom/client';
 import axios from 'axios';
-const Login = () => {
+const LoginPage = () => {
  
     return (
     <> 
@@ -10,4 +10,4 @@ const Login = () => {
     )
 };
   
-export default Login;
+export default LoginPage;

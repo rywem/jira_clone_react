@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactDOM from 'react-dom/client';
 import axios from 'axios';
-const Register = () => {
+const RegisterPage = () => {
   
 
   return (
@@ -11,4 +11,4 @@ const Register = () => {
   )
 };
   
-  export default Register;
+  export default RegisterPage;

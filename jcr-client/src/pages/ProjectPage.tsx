@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-export default class Project extends React.Component {
+export default class ProjectPage extends React.Component {
     
     render() {
         return (
