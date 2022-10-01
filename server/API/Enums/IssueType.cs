@@ -2,9 +2,9 @@
 {
     public enum IssueType
     {
-        Task,
-        Bug,
-        Story
+        Task = 0,
+        Bug = 1,
+        Story = 2
     }
 
 }

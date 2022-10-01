@@ -9,8 +9,7 @@ namespace API.Entities
         public int Id { get; set; }
         public string Body { get; set; }
         public DateTime CreatedUtc { get; set; }
-        public DateTime UpdatedUtc { get; set; }
-        
+        public DateTime UpdatedUtc { get; set; }        
         public string AppUserId { get; set; }
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }

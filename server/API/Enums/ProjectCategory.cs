@@ -2,8 +2,8 @@
 {
     public enum ProjectCategory
     {
-        Software,
-        Marketing,
-        Business
+        Software = 0,
+        Marketing = 1,
+        Business = 2
     }
 }

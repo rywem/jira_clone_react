@@ -80,7 +80,8 @@ namespace API.Controllers
             var response = new UserDto() 
             {
                 Username = user.UserName,
-                Token = await _tokenService.CreateToken(user)
+                Token = await _tokenService.CreateToken(user),
+                AvatarUrl = user.AvatarUrl
             };
 
             return Ok(response);
