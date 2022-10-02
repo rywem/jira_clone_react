@@ -6,6 +6,7 @@ import { Issue } from "./Issue";
 export interface Project {
     id: number;
     url: string;
+    title: string;
     description: number;
     category: ProjectCategory;
     createdUtc: Date;

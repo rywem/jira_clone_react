@@ -9,10 +9,11 @@ import logo from './logo.svg';
 import './App.css';
 import './styles.css'
 import axios from 'axios';
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Project } from './models/Project';
-import { Header, List } from 'semantic-ui-react'
+import { Header, List, Container } from 'semantic-ui-react'
 import NavBar from "./layout/NavBar";
+import ProjectDashboard from "./features/ProjectDashboard";
 function App() {
   const [projects, setProjects] = useState<Project[]>([])
 
@@ -23,16 +24,12 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <Fragment>
       <NavBar />
-      <List>
-        {projects.map((project: Project) => (
-            <List.Item key={project.id}>
-              {project.description}
-            </List.Item>
-        ))}
-      </List>        
-    </div>
+      <Container style={{marginTop: '7em'}}>
+        <ProjectDashboard projects={projects} />
+      </Container>
+    </Fragment>
   );
 }
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220926132613_SetupDatabaseMigration")]
-    partial class SetupDatabaseMigration
+    [Migration("20221002132352_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,9 +64,6 @@ namespace API.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
@@ -86,8 +83,6 @@ namespace API.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("ProjectId");
-
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -104,6 +99,24 @@ namespace API.Migrations
                     b.HasIndex("IssueId");
 
                     b.ToTable("AppUserIssues");
+                });
+
+            modelBuilder.Entity("API.Entities.AppUserProject", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AppUserId", "ProjectId");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("AppUserProject");
                 });
 
             modelBuilder.Entity("API.Entities.Comment", b =>
@@ -206,6 +219,9 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedUtc")
@@ -347,17 +363,6 @@ namespace API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("API.Entities.AppUser", b =>
-                {
-                    b.HasOne("API.Entities.Project", "Project")
-                        .WithMany("AppUsers")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("API.Entities.AppUserIssue", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "AppUser")
@@ -375,6 +380,25 @@ namespace API.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Issue");
+                });
+
+            modelBuilder.Entity("API.Entities.AppUserProject", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "AppUser")
+                        .WithOne("AppUserProject")
+                        .HasForeignKey("API.Entities.AppUserProject", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Project", "Project")
+                        .WithMany("AppUserProjects")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("API.Entities.Comment", b =>
@@ -466,6 +490,8 @@ namespace API.Migrations
                 {
                     b.Navigation("AppUserIssues");
 
+                    b.Navigation("AppUserProject");
+
                     b.Navigation("Comments");
                 });
 
@@ -478,7 +504,7 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Project", b =>
                 {
-                    b.Navigation("AppUsers");
+                    b.Navigation("AppUserProjects");
 
                     b.Navigation("Issues");
                 });
