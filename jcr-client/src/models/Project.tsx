@@ -12,5 +12,5 @@ export interface Project {
     createdUtc: Date;
     updatedUtc: Date;
     issues: Issue[];
-    AppUserProjects: AppUserProject;
+    AppUserProjects: AppUserProject[];
 } 

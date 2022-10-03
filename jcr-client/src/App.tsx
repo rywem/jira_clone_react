@@ -13,21 +13,35 @@ import { Fragment, useEffect, useState } from "react";
 import { Project } from './models/Project';
 import { Header, List, Container } from 'semantic-ui-react'
 import NavBar from "./layout/NavBar";
-import ProjectDashboard from "./features/ProjectDashboard";
+import ProjectDashboard from "./components/Project/ProjectDashboard";
 function App() {
   const [projects, setProjects] = useState<Project[]>([])
-
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined); 
+  
   useEffect(() => {
     axios.get('https://localhost:7260/api/Project').then(response => {
       setProjects(response.data);
     })
   }, [])
 
+  function handleSelectProject(id: number) {
+    setSelectedProject(projects.find(x => x.id == id))
+  }
+
+  function handleCancelSelectProject() {
+    setSelectedProject(undefined);
+  }
+
   return (
     <Fragment>
       <NavBar />
       <Container style={{marginTop: '7em'}}>
-        <ProjectDashboard projects={projects} />
+        <ProjectDashboard 
+          projects={projects} 
+          selectedProject={selectedProject}
+          selectProject={handleSelectProject}
+          cancelSelectProject={handleCancelSelectProject}
+          />
       </Container>
     </Fragment>
   );

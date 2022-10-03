@@ -1,8 +1,9 @@
 import React from 'react';
-import { Project } from '../models/Project';
+import { Project } from '../../models/Project';
 import { Segment, Item, Button, Label } from 'semantic-ui-react';
 interface Props {
     projects: Project[];
+    selectProject: (id: number) => void;
 }
 
 export default function ProjectList(props: Props) {
@@ -19,7 +20,9 @@ export default function ProjectList(props: Props) {
                                 </Item.Description>
                             </Item.Content>
                             <Item.Extra>
-                                <Button floated='right' content='View' color='blue' />
+                                <Button floated='right' content='View' color='blue'
+                                onClick={() => props.selectProject(project.id) }
+                                />
                                 <Label basic content={project.category} />
                             </Item.Extra>
                         </Item>
