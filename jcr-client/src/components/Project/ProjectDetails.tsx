@@ -5,8 +5,12 @@ import { Project } from '../../models/Project'
 interface Props {
     project: Project;
     cancelSelectProject: () => void;
+    openForm: (id: number) => void;    
 }
 export default function ProjectDetails(props: Props) {
+    function test() {
+        props.openForm(props.project.id);
+    }
     return (
         <Card fluid>
 
@@ -26,7 +30,7 @@ export default function ProjectDetails(props: Props) {
                     {props.project.AppUserProjects && props.project.AppUserProjects.length}
                 </a>
                 <Button.Group>
-                    <Button basic color='blue' content='Edit' />
+                    <Button basic color='blue' content='Edit' onClick={() => props.openForm(props.project.id)} />
                     <Button basic color='grey' content='Cancel' onClick={props.cancelSelectProject} />
                 </Button.Group>
             </Card.Content>

@@ -17,7 +17,8 @@ import ProjectDashboard from "./components/Project/ProjectDashboard";
 function App() {
   const [projects, setProjects] = useState<Project[]>([])
   const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined); 
-  
+  const [editMode, setEditMode] = useState(false);
+
   useEffect(() => {
     axios.get('https://localhost:7260/api/Project').then(response => {
       setProjects(response.data);
@@ -32,15 +33,29 @@ function App() {
     setSelectedProject(undefined);
   }
 
+  function handleFormOpen(id?: number) {
+    id ? handleSelectProject(id) : handleCancelSelectProject();
+    setEditMode(true);
+  }
+
+  function handleFormClose() {
+    setEditMode(false);
+  }
+
+
+
   return (
     <Fragment>
-      <NavBar />
+      <NavBar openForm={handleFormOpen} />
       <Container style={{marginTop: '7em'}}>
         <ProjectDashboard 
           projects={projects} 
           selectedProject={selectedProject}
           selectProject={handleSelectProject}
           cancelSelectProject={handleCancelSelectProject}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
           />
       </Container>
     </Fragment>

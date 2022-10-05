@@ -10,6 +10,9 @@ interface Props {
     selectedProject: Project | undefined;
     selectProject: (id: number) => void;
     cancelSelectProject: () => void;
+    editMode: boolean;
+    openForm: (id: number) => void;
+    closeForm: () => void;
 }
 
 export default function ProjectDashboard(props: Props) {
@@ -20,9 +23,14 @@ export default function ProjectDashboard(props: Props) {
                 <ProjectList projects={props.projects} selectProject={props.selectProject}/>
             </Grid.Column>
             <Grid.Column width='6'>
-                {props.selectedProject &&
-                <ProjectDetails project={props.selectedProject} cancelSelectProject={props.cancelSelectProject} />}
-                <ProjectForm />
+                {props.selectedProject && !props.editMode &&
+                <ProjectDetails project={props.selectedProject} 
+                    cancelSelectProject={props.cancelSelectProject} 
+                    openForm={props.openForm}
+
+                />}                
+                {props.editMode && 
+                <ProjectForm closeForm={props.closeForm} project={props.selectedProject} />}                
             </Grid.Column>
         </Grid>
     )
