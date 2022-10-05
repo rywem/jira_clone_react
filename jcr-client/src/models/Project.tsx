@@ -8,7 +8,7 @@ export interface Project {
     url: string;
     title: string;
     description: number;
-    category: ProjectCategory;
+    category: string;
     createdUtc: Date;
     updatedUtc: Date;
     issues: Issue[];
