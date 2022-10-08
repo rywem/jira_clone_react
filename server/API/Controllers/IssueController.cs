@@ -19,7 +19,7 @@ namespace API.Controllers
             _issueRepository = issueRepository;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] Issue issue)
         {
             try
@@ -47,7 +47,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] Issue issue)
         {
             try

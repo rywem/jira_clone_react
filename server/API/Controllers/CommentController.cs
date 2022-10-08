@@ -17,7 +17,7 @@ namespace API.Controllers
             _commentRepository = commentRepository;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] Comment comment)
         {
             try
@@ -45,7 +45,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] Comment comment)
         {
             try 

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Project } from '../../models/Project';
 import { Segment, Item, Button, Label } from 'semantic-ui-react';
+import ProjectCategoryHelper from '../../helpers/ProjectCategoryHelper';
+import CategoryEnumHelper from '../../helpers/ProjectCategoryHelper';
+
 interface Props {
     projects: Project[];
     selectProject: (id: number) => void;
@@ -8,6 +11,7 @@ interface Props {
 }
 
 export default function ProjectList(props: Props) {
+    
     return (
         <Segment>
             <Item.Group divided>
@@ -27,7 +31,7 @@ export default function ProjectList(props: Props) {
                                 <Button floated='right' content='Delete' color='red'
                                     onClick={() => props.deleteProject(project.id) }
                                 />
-                                <Label basic content={project.category} />
+                                <Label basic content={CategoryEnumHelper.getCategoryName(project.category)} />
                             </Item.Extra>
                         </Item>
                     ))}

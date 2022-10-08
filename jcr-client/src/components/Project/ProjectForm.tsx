@@ -2,25 +2,25 @@ import React, { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { Form, Segment, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { ProjectCategory } from '../../enums/ProjectCategory';
 import { Project } from '../../models/Project';
-
+import CategoryEnumHelper from '../../helpers/ProjectCategoryHelper';
 interface Props {
     project: Project | undefined;
     closeForm: () => void;
     createOrEdit: (project: Project) => void;
 }
 
-const categoryOptions = function() {
-    let results = [];
-    let items = Object.keys(ProjectCategory);
-    let keys = items.filter(v => !isNaN(Number(v)));
-    let values = items.filter(v => isNaN(Number(v)));
+// const categoryOptions = function() {
+//     let results = [];
+//     let items = Object.keys(ProjectCategory);
+//     let keys = items.filter(v => !isNaN(Number(v)));
+//     let values = items.filter(v => isNaN(Number(v)));
     
-    for(let i = 0; i < keys.length; i++) {
-        results.push({key: keys[i], value: values[i], text: values[i]})
-    }
+//     for(let i = 0; i < keys.length; i++) {
+//         results.push({key: keys[i], value: values[i], text: values[i]})
+//     }
 
-    return results;
-}
+//     return results;
+// }
 
 export default function ProjectForm(props: Props) {
     const initialState = props.project ??  getDefaultProject();
@@ -53,7 +53,7 @@ export default function ProjectForm(props: Props) {
     function selected() {
         if(project.category != null && project.category >= 0)
         {
-            return categoryOptions()[project.category].value;            
+            return CategoryEnumHelper.categoryOptions()[project.category].value;            
         }
         return ''
     }
@@ -69,7 +69,7 @@ export default function ProjectForm(props: Props) {
 
     function handleDropdownChange(event: SyntheticEvent<HTMLElement, Event>, data: DropdownProps ) {        
         const { value } = data;
-        const  key = categoryOptions().find(o => o.value === value);
+        const  key = CategoryEnumHelper.categoryOptions().find(o => o.value === value);
         let keyId = key?.key;
         let category = 'category';
         let valueToParse = key?.key.toString();
@@ -89,14 +89,12 @@ export default function ProjectForm(props: Props) {
         <Segment clearing>
             <Form onSubmit={handleSubmit} autoComplete='off'>
                 <Form.Input placeholder='Title' value={project.title} name='title' onChange={handleInputChange} />
-                <Form.TextArea placeholder='Description' value={project.description} name='description' onChange={handleInputChange} />
-                {/* <Form.Input placeholder='Category' value={project.category} name='category' onChange={handleInputChange} /> */}
-                {/* <Select placeholder='Select Category' options={categoryOptions()} onChange={handleSelectChange} /> */}
+                <Form.TextArea placeholder='Description' value={project.description} name='description' onChange={handleInputChange} />                
                 <Dropdown placeholder="Select Category"
                     fluid
                     selection
                     onChange={handleDropdownChange}
-                    options={categoryOptions()}
+                    options={CategoryEnumHelper.categoryOptions()}
                     defaultValue={selected()}
                 />
                 <Form.Input placeholder='URL' value={project.url} name='url' onChange={handleInputChange} />

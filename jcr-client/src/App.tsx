@@ -8,20 +8,23 @@ import NoPage from "./pages/NoPage";
 import logo from './logo.svg';
 import './App.css';
 import './styles.css'
-import axios from 'axios';
+
 import { Fragment, useEffect, useState } from "react";
 import { Project } from './models/Project';
 import { Header, List, Container } from 'semantic-ui-react'
 import NavBar from "./layout/NavBar";
 import ProjectDashboard from "./components/Project/ProjectDashboard";
+import agent from "./api/Agent";
+import LoadingComponent from "./components/LoadingComponent";
 function App() {
   const [projects, setProjects] = useState<Project[]>([])
   const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined); 
   const [editMode, setEditMode] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios.get('https://localhost:7260/api/Project').then(response => {
-      setProjects(response.data);
+    agent.Projects.list().then(response => {
+      setProjects(response);
+      setLoading(false);
     })
   }, [])
 
@@ -53,6 +56,10 @@ function App() {
   function handleDeleteProject(id: number) {
     setProjects([...projects.filter(x => x.id !== id)]);
   }
+
+  if(loading) 
+    return <LoadingComponent content="Loading Projects..." />
+
   return (
     <Fragment>
       <NavBar openForm={handleFormOpen} />

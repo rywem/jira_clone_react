@@ -18,7 +18,7 @@ namespace API.Controllers
             _projectRepository = projectRepository;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] Project project)
         {
             try
@@ -46,7 +46,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] Project project)
         {
             try
