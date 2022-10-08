@@ -4,6 +4,7 @@ import { Segment, Item, Button, Label } from 'semantic-ui-react';
 interface Props {
     projects: Project[];
     selectProject: (id: number) => void;
+    deleteProject: (id: number) => void;
 }
 
 export default function ProjectList(props: Props) {
@@ -22,6 +23,9 @@ export default function ProjectList(props: Props) {
                             <Item.Extra>
                                 <Button floated='right' content='View' color='blue'
                                     onClick={() => props.selectProject(project.id) }
+                                />
+                                <Button floated='right' content='Delete' color='red'
+                                    onClick={() => props.deleteProject(project.id) }
                                 />
                                 <Label basic content={project.category} />
                             </Item.Extra>

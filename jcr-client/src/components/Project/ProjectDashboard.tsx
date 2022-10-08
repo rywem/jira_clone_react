@@ -14,6 +14,7 @@ interface Props {
     openForm: (id: number) => void;
     closeForm: () => void;
     createOrEdit: (project: Project) => void;
+    deleteProject: (id: number) => void;
 }
 
 export default function ProjectDashboard(props: Props) {
@@ -21,7 +22,7 @@ export default function ProjectDashboard(props: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>                
-                <ProjectList projects={props.projects} selectProject={props.selectProject}/>
+                <ProjectList projects={props.projects} selectProject={props.selectProject} deleteProject={props.deleteProject} />
             </Grid.Column>
             <Grid.Column width='6'>
                 {props.selectedProject && !props.editMode &&

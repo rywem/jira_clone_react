@@ -49,6 +49,10 @@ function App() {
     setEditMode(false);
     setSelectedProject(project);
   }
+
+  function handleDeleteProject(id: number) {
+    setProjects([...projects.filter(x => x.id !== id)]);
+  }
   return (
     <Fragment>
       <NavBar openForm={handleFormOpen} />
@@ -62,6 +66,7 @@ function App() {
           openForm={handleFormOpen}
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditProject}
+          deleteProject={handleDeleteProject}
           />
       </Container>
     </Fragment>
