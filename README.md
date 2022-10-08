@@ -7,7 +7,7 @@ A repository for a JIRA clone.
 - Bootstrap `npm install react-bootstrap bootstrap`
 - react-router-dom `npm i -D react-router-dom`
 - axios `npm install axios`
-- semantic-ui-react `https://localhost:7260/`* //there's an issue with semantic ui css. there's a work around, see below
+- semantic-ui-react `npm install semantic-ui-react`* //there's an issue with semantic ui css. there's a work around, see below
 
 
 ### Workaround, semantic ui react
