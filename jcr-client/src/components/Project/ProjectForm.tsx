@@ -25,14 +25,22 @@ export default function ProjectForm(props: Props) {
     const initialState = props.project ?? {
         id: '',
         title: '',
-        category: '',
+        category: -1,
         description: '',
         url: '',
         createdUtc: '',
         updatedUtc: ''
     }
     const [project, setProject] = useState(initialState);
+    
 
+    function selected() {
+        if(project.category != null && project.category >= 0)
+        {
+            return categoryOptions()[project.category].value;            
+        }
+        return ''
+    }
     function handleSubmit(){        
         console.log("submit project", project);
     }
@@ -42,14 +50,23 @@ export default function ProjectForm(props: Props) {
         setProject({...project, [name]: value});
     }
 
-    function handleDropdownChange(event: SyntheticEvent<HTMLElement, Event>, data: DropdownProps ) {
-        console.log(event);
+    function handleDropdownChange(event: SyntheticEvent<HTMLElement, Event>, data: DropdownProps ) {        
         const { value } = data;
         const  key = categoryOptions().find(o => o.value === value);
         let keyId = key?.key;
         let category = 'category';
-        setProject({...project, [category]: key?.key.toString()})        
+        let valueToParse = key?.key.toString();
+        let number;
+        if(valueToParse != undefined){
+            number = parseInt(valueToParse)
+        }
+        else {
+            number = -1;
+        }
+        setProject({...project, [category]: number})    
+        console.log(project);
     }
+    
 
     return (
         <Segment clearing>
@@ -63,6 +80,7 @@ export default function ProjectForm(props: Props) {
                     selection
                     onChange={handleDropdownChange}
                     options={categoryOptions()}
+                    defaultValue={selected()}
                 />
                 <Form.Input placeholder='URL' value={project.url} name='url' onChange={handleInputChange} />
                 <Button floated='right' positive type="submit" content="Submit" />
