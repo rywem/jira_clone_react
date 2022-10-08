@@ -41,9 +41,14 @@ function App() {
   function handleFormClose() {
     setEditMode(false);
   }
+  function handleCreateOrEditProject(project: Project) {
+    project.id 
+      ? setProjects([...projects.filter(x => x.id !== project.id), project])
+      : setProjects([...projects, project]);
 
-
-
+    setEditMode(false);
+    setSelectedProject(project);
+  }
   return (
     <Fragment>
       <NavBar openForm={handleFormOpen} />
@@ -56,6 +61,7 @@ function App() {
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
+          createOrEdit={handleCreateOrEditProject}
           />
       </Container>
     </Fragment>

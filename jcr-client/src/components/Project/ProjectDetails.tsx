@@ -27,7 +27,7 @@ export default function ProjectDetails(props: Props) {
             <Card.Content extra>
                 <a>
                     <Icon name='tasks' />
-                    {props.project.AppUserProjects && props.project.AppUserProjects.length}
+                    {props.project.appUserProjects && props.project.appUserProjects.length}
                 </a>
                 <Button.Group>
                     <Button basic color='blue' content='Edit' onClick={() => props.openForm(props.project.id)} />

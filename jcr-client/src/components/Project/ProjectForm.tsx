@@ -6,6 +6,7 @@ import { Project } from '../../models/Project';
 interface Props {
     project: Project | undefined;
     closeForm: () => void;
+    createOrEdit: (project: Project) => void;
 }
 
 const categoryOptions = function() {
@@ -22,17 +23,32 @@ const categoryOptions = function() {
 }
 
 export default function ProjectForm(props: Props) {
-    const initialState = props.project ?? {
-        id: '',
-        title: '',
-        category: -1,
-        description: '',
-        url: '',
-        createdUtc: '',
-        updatedUtc: ''
-    }
+    const initialState = props.project ??  getDefaultProject();
+    // {
+    //     id: 0,
+    //     title: '',
+    //     category: -1,
+    //     description: '',
+    //     url: '',
+    //     createdUtc: '2022-10-02T13:25:47.9805858',
+    //     updatedUtc: '2022-10-02T13:25:47.9805858',        
+    // }
     const [project, setProject] = useState(initialState);
     
+    function getDefaultProject() {
+        const newProject: Project = {
+            id: 0,
+            title: '',
+            category: -1,
+            description: '',
+            url: '',
+            createdUtc: new Date(Date.now()),
+            updatedUtc: new Date(Date.now()),
+            issues: [],
+            appUserProjects: []
+        }
+        return newProject;
+    }
 
     function selected() {
         if(project.category != null && project.category >= 0)
@@ -41,8 +57,9 @@ export default function ProjectForm(props: Props) {
         }
         return ''
     }
-    function handleSubmit(){        
+    function handleSubmit(){
         console.log("submit project", project);
+        props.createOrEdit(project);
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {

@@ -3,14 +3,16 @@ import { AppUserProject } from "./AppUserProject";
 import { Issue } from "./Issue";
 
 
+
+
 export interface Project {
     id: number;
     url: string;
     title: string;
-    description: number;
-    category: ProjectCategory;
+    description: string;
+    category: number;
     createdUtc: Date;
     updatedUtc: Date;
     issues: Issue[];
-    AppUserProjects: AppUserProject[];
+    appUserProjects: AppUserProject[];
 } 
