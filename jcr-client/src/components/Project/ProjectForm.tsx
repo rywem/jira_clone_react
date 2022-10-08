@@ -7,32 +7,12 @@ interface Props {
     project: Project | undefined;
     closeForm: () => void;
     createOrEdit: (project: Project) => void;
+    submitting: boolean;
 }
 
-// const categoryOptions = function() {
-//     let results = [];
-//     let items = Object.keys(ProjectCategory);
-//     let keys = items.filter(v => !isNaN(Number(v)));
-//     let values = items.filter(v => isNaN(Number(v)));
-    
-//     for(let i = 0; i < keys.length; i++) {
-//         results.push({key: keys[i], value: values[i], text: values[i]})
-//     }
-
-//     return results;
-// }
 
 export default function ProjectForm(props: Props) {
     const initialState = props.project ??  getDefaultProject();
-    // {
-    //     id: 0,
-    //     title: '',
-    //     category: -1,
-    //     description: '',
-    //     url: '',
-    //     createdUtc: '2022-10-02T13:25:47.9805858',
-    //     updatedUtc: '2022-10-02T13:25:47.9805858',        
-    // }
     const [project, setProject] = useState(initialState);
     
     function getDefaultProject() {
@@ -98,7 +78,7 @@ export default function ProjectForm(props: Props) {
                     defaultValue={selected()}
                 />
                 <Form.Input placeholder='URL' value={project.url} name='url' onChange={handleInputChange} />
-                <Button floated='right' positive type="submit" content="Submit" />
+                <Button loading={props.submitting} floated='right' positive type="submit" content="Submit" />
                 <Button floated='right' positive type="button" content="Cancel" onClick={props.closeForm} />
             </Form>
         </Segment>

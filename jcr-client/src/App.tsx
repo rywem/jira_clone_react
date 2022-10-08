@@ -21,6 +21,7 @@ function App() {
   const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined); 
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   useEffect(() => {
     agent.Projects.list().then(response => {
       setProjects(response);
@@ -45,12 +46,24 @@ function App() {
     setEditMode(false);
   }
   function handleCreateOrEditProject(project: Project) {
-    project.id 
-      ? setProjects([...projects.filter(x => x.id !== project.id), project])
-      : setProjects([...projects, project]);
-
-    setEditMode(false);
-    setSelectedProject(project);
+    setSubmitting(true);
+    if(project.id)  {
+      agent.Projects.update(project).then(() => {
+        setProjects([...projects.filter(x => x.id !== project.id), project])
+        setSelectedProject(project);
+        setEditMode(false);
+        setSelectedProject(project);
+        setSubmitting(false);
+      })
+    }
+    else {
+      agent.Projects.create(project).then((response) =>{
+        setProjects([...projects, response]);
+        setEditMode(false);
+        setSelectedProject(response);
+        setSubmitting(false);
+      })
+    }    
   }
 
   function handleDeleteProject(id: number) {
@@ -74,6 +87,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditProject}
           deleteProject={handleDeleteProject}
+          submitting={submitting}
           />
       </Container>
     </Fragment>

@@ -31,7 +31,11 @@ const requests = {
 }
 
 const Projects = {
-    list: () => requests.get<Project[]>('/Project')
+    list: () => requests.get<Project[]>('/Project'),
+    details: (id: number) => requests.get<Project>(`/Projects/${id}`),
+    create: (project: Project) => requests.post<Project>('/Project', project),
+    update: (project: Project) => requests.put<Project>('/Project', project),
+    delete: (id: number) => requests.delete<void>(`/Project/${id}`)
 }
 
 const agent = {

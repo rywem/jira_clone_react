@@ -15,6 +15,7 @@ interface Props {
     closeForm: () => void;
     createOrEdit: (project: Project) => void;
     deleteProject: (id: number) => void;
+    submitting: boolean;
 }
 
 export default function ProjectDashboard(props: Props) {
@@ -33,7 +34,9 @@ export default function ProjectDashboard(props: Props) {
                 />}                
                 {props.editMode && 
                 <ProjectForm closeForm={props.closeForm} project={props.selectedProject} 
-                    createOrEdit={props.createOrEdit} />}                
+                    createOrEdit={props.createOrEdit} 
+                    submitting={props.submitting}
+                    />}                
             </Grid.Column>
         </Grid>
     )

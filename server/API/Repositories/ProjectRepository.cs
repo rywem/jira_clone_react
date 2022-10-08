@@ -37,6 +37,7 @@ namespace API.Repositories
 
             if(objFromDb != null)
             {
+                objFromDb.Title = project.Title;
                 objFromDb.UpdatedUtc = DateTime.UtcNow;
                 objFromDb.Url = project.Url;
                 objFromDb.Description = project.Description;
