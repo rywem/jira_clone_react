@@ -21,7 +21,7 @@ export default function ProjectList(props: Props) {
                             </Item.Content>
                             <Item.Extra>
                                 <Button floated='right' content='View' color='blue'
-                                onClick={() => props.selectProject(project.id) }
+                                    onClick={() => props.selectProject(project.id) }
                                 />
                                 <Label basic content={project.category} />
                             </Item.Extra>
