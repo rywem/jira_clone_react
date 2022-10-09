@@ -3,18 +3,18 @@ import { Form, Segment, Button, Dropdown, DropdownProps } from 'semantic-ui-reac
 import { ProjectCategory } from '../../enums/ProjectCategory';
 import { Project } from '../../models/Project';
 import CategoryEnumHelper from '../../helpers/ProjectCategoryHelper';
+import { useStore } from '../../stores/store';
 interface Props {
-    project: Project | undefined;
-    closeForm: () => void;
     createOrEdit: (project: Project) => void;
     submitting: boolean;
 }
 
 
 export default function ProjectForm(props: Props) {
-    const initialState = props.project ??  getDefaultProject();
+    const { projectStore } = useStore();
+    const { selectedProject, closeForm } = projectStore;
+    const initialState = selectedProject ??  getDefaultProject();
     const [project, setProject] = useState(initialState);
-    
     function getDefaultProject() {
         const newProject: Project = {
             id: 0,
@@ -79,7 +79,7 @@ export default function ProjectForm(props: Props) {
                 />
                 <Form.Input placeholder='URL' value={project.url} name='url' onChange={handleInputChange} />
                 <Button loading={props.submitting} floated='right' positive type="submit" content="Submit" />
-                <Button floated='right' positive type="button" content="Cancel" onClick={props.closeForm} />
+                <Button floated='right' positive type="button" content="Cancel" onClick={closeForm} />
             </Form>
         </Segment>
     )
