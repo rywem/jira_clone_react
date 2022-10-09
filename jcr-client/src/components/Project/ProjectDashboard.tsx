@@ -8,10 +8,8 @@ import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
 
 interface Props {
-    projects: Project[];        
-    createOrEdit: (project: Project) => void;
-    deleteProject: (id: number) => void;
-    submitting: boolean;
+    projects: Project[];            
+    deleteProject: (id: number) => void;    
 }
 
 export default observer( function ProjectDashboard(props: Props) {
@@ -26,10 +24,7 @@ export default observer( function ProjectDashboard(props: Props) {
                     {selectedProject && !editMode &&
                     <ProjectDetails />}                
                     {editMode && 
-                    <ProjectForm 
-                        createOrEdit={props.createOrEdit} 
-                        submitting={props.submitting}
-                        />}                
+                    <ProjectForm />}                
                 </Grid.Column>
             </Grid>
         )
