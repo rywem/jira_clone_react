@@ -11,12 +11,15 @@ import './styles.css'
 
 import { Fragment, useEffect, useState } from "react";
 import { Project } from './models/Project';
-import { Header, List, Container } from 'semantic-ui-react'
+import { Header, List, Container, Button } from 'semantic-ui-react'
 import NavBar from "./layout/NavBar";
 import ProjectDashboard from "./components/Project/ProjectDashboard";
 import agent from "./api/Agent";
 import LoadingComponent from "./components/LoadingComponent";
+import { useStore } from "./stores/store";
+import { observer } from "mobx-react-lite";
 function App() {
+  const { projectStore } = useStore();
   const [projects, setProjects] = useState<Project[]>([])
   const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined); 
   const [editMode, setEditMode] = useState(false);
@@ -77,6 +80,8 @@ function App() {
     <Fragment>
       <NavBar openForm={handleFormOpen} />
       <Container style={{marginTop: '7em'}}>
+        <h2>{projectStore.title}</h2>
+        <Button content="Add Excl" positive onClick={projectStore.setTitle} />
         <ProjectDashboard 
           projects={projects} 
           selectedProject={selectedProject}
@@ -94,4 +99,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

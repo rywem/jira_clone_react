@@ -3,7 +3,7 @@ A repository for a JIRA clone.
 
 
 ## Client Packages
-- Mobx
+- Mobx `npm install mobx mobx-react-lite`
 - Bootstrap `npm install react-bootstrap bootstrap`
 - react-router-dom `npm i -D react-router-dom`
 - axios `npm install axios`
